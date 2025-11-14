@@ -35,7 +35,7 @@ class Category(models.Model):
     """Тематическая категория"""
 
     title = models.CharField(
-        max_length=MAX_LENGTH, 
+        max_length=MAX_LENGTH,
         verbose_name='Заголовок'
     )
     description = models.TextField(verbose_name='Описание')
@@ -70,7 +70,7 @@ class Post(models.Model):
     """Публикация"""
 
     title = models.CharField(
-        max_length=MAX_LENGTH, 
+        max_length=MAX_LENGTH,
         verbose_name='Заголовок'
     )
     text = models.TextField(verbose_name='Текст')

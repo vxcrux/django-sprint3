@@ -7,7 +7,7 @@ POSTS_PER_PAGE_ON_INDEX = 5
 
 
 def _get_base_posts_queryset():
-    """Возвращает список объектов для постов с базовыми фильтрами и select_related"""
+    """Возвращает список с базовыми фильтрами и select_related"""
     now = timezone.now()
     base_filters = {
         'pub_date__lte': now,
@@ -26,7 +26,7 @@ def index(request):
     """Отображает главную страницу блога со списком последних публикаций"""
     posts_list = _get_base_posts_queryset()
 
-    posts_list = posts_list[:POSTS_PER_PAGE_ON_INDEX] 
+    posts_list = posts_list[:POSTS_PER_PAGE_ON_INDEX]
 
     context = {"posts": posts_list}
     return render(request, "blog/index.html", context)
