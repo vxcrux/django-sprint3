@@ -13,7 +13,7 @@
     <p class="card-text">
       {{ post.text|truncatewords:10 }}
     </p>
-    <a href="{% url 'blog:post_detail' post.id %}" class="card-link">
+    <a href="{% url 'blog:post_detail' post_id=post.id %}" class="card-link">
       Читать полный текст
     </a>
   </div>

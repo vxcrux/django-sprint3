@@ -3,11 +3,16 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+MAX_LENGTH = 256
+
 
 class Location(models.Model):
     """Географическая метка"""
 
-    name = models.CharField(max_length=256, verbose_name='Название места')
+    name = models.CharField(
+        max_length=MAX_LENGTH,
+        verbose_name='Название места'
+    )
     is_published = models.BooleanField(
         default=True,
         verbose_name='Опубликовано',
@@ -29,11 +34,15 @@ class Location(models.Model):
 class Category(models.Model):
     """Тематическая категория"""
 
-    title = models.CharField(max_length=256, verbose_name='Заголовок')
+    title = models.CharField(
+        max_length=MAX_LENGTH, 
+        verbose_name='Заголовок'
+    )
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(
         unique=True,
         verbose_name='Идентификатор',
+        max_length=MAX_LENGTH,
         help_text=(
             'Идентификатор страницы для URL; разрешены символы латиницы, '
             'цифры, дефис и подчёркивание.'
@@ -45,7 +54,8 @@ class Category(models.Model):
         help_text='Снимите галочку, чтобы скрыть публикацию.'
     )
     created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name='Добавлено'
+        auto_now_add=True,
+        verbose_name='Добавлено'
     )
 
     class Meta:
@@ -59,7 +69,10 @@ class Category(models.Model):
 class Post(models.Model):
     """Публикация"""
 
-    title = models.CharField(max_length=256, verbose_name='Заголовок')
+    title = models.CharField(
+        max_length=MAX_LENGTH, 
+        verbose_name='Заголовок'
+    )
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
@@ -101,6 +114,7 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
+        ordering = ['-pub_date']
 
     def __str__(self):
         return self.title
