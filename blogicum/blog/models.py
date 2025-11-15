@@ -3,16 +3,10 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-MAX_LENGTH = 256
 
+class BaseModel(models.Model):
+    """Абстрактная модель"""
 
-class Location(models.Model):
-    """Географическая метка"""
-
-    name = models.CharField(
-        max_length=MAX_LENGTH,
-        verbose_name='Название места'
-    )
     is_published = models.BooleanField(
         default=True,
         verbose_name='Опубликовано',
@@ -24,6 +18,21 @@ class Location(models.Model):
     )
 
     class Meta:
+        abstract = True
+
+
+MAX_LENGTH = 256
+
+
+class Location(BaseModel):
+    """Географическая метка"""
+
+    name = models.CharField(
+        max_length=MAX_LENGTH,
+        verbose_name='Название места'
+    )
+
+    class Meta:
         verbose_name = 'местоположение'
         verbose_name_plural = 'Местоположения'
 
@@ -31,7 +40,7 @@ class Location(models.Model):
         return self.name
 
 
-class Category(models.Model):
+class Category(BaseModel):
     """Тематическая категория"""
 
     title = models.CharField(
@@ -48,15 +57,6 @@ class Category(models.Model):
             'цифры, дефис и подчёркивание.'
         )
     )
-    is_published = models.BooleanField(
-        default=True,
-        verbose_name='Опубликовано',
-        help_text='Снимите галочку, чтобы скрыть публикацию.'
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено'
-    )
 
     class Meta:
         verbose_name = 'категория'
@@ -66,7 +66,7 @@ class Category(models.Model):
         return self.title
 
 
-class Post(models.Model):
+class Post(BaseModel):
     """Публикация"""
 
     title = models.CharField(
@@ -97,24 +97,15 @@ class Post(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
-        null=True,
-        blank=False,
         verbose_name='Категория',
-    )
-    is_published = models.BooleanField(
-        default=True,
-        verbose_name='Опубликовано',
-        help_text='Снимите галочку, чтобы скрыть публикацию.'
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено'
+        null=True,
+        blank=False
     )
 
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
-        ordering = ['-pub_date']
+        ordering = ('-pub_date',)
 
     def __str__(self):
         return self.title
