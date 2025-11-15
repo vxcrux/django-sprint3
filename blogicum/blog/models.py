@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+MAX_LENGTH = 256
+
 
 class BaseModel(models.Model):
     """Абстрактная модель"""
@@ -19,9 +21,6 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-
-
-MAX_LENGTH = 256
 
 
 class Location(BaseModel):
@@ -92,14 +91,16 @@ class Post(BaseModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name='Местоположение'
+        verbose_name='Местоположение',
+        related_name='posts'
     )
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
         verbose_name='Категория',
         null=True,
-        blank=False
+        blank=False,
+        related_name='posts'
     )
 
     class Meta:

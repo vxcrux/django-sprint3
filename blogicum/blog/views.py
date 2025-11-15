@@ -45,7 +45,6 @@ def category_posts(request, category_slug):
     )
 
     context = {
-        'category_slug': category_slug,
         'posts': get_base_posts_queryset().filter(category=category),
         'category': category,
     }
